@@ -50,6 +50,7 @@ body {
     text-align: center;
     font-weight: 600;
     outline: none;
+    cursor: pointer;
 }
 
 #todo-btn:hover {
@@ -98,6 +99,7 @@ img {
     width: 30px;
     margin: 0.5rem;
     max-width: 40px;
+    cursor: pointer;
 }
 
 .check-img {
@@ -136,6 +138,10 @@ img {
 }
 
 @media (min-width: 680px) {
+    #todo-input {
+        width: 70%;
+        max-width: 500px;
+    }
     .todo-tasks {
         justify-content: center;
     }
