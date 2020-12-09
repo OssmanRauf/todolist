@@ -79,7 +79,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    transition: all 70s linear;
+    /* transition: all 0 linear; */
 }
 
 .task {

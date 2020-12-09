@@ -22,16 +22,18 @@ btn.addEventListener("click", () => {
 
 task_list.addEventListener('click', () => {
     const task_text = event.target.parentElement.firstChild;
-    const li = event.target.parentElement;
+    const li = event.target.parentNode;
     if (event.target.classList.contains('check-img')) {
         if (task_text.classList.contains('compleated')) {
             event.target.classList.remove("checked");
             task_text.classList.remove("compleated");
+            li.style.backgroundColor = "rgba(255, 255, 255, 0.955)";
 
 
         } else {
             event.target.classList.add('checked');
             task_text.classList.add("compleated");
+            li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
         };
     };
 });
