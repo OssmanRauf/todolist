@@ -79,7 +79,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    /* transition: all 0 linear; */
+    transition: all 100ms linear;
 }
 
 .task {
@@ -96,7 +96,7 @@ img {
     justify-content: space-between;
     background-color: transparent;
     width: 30px;
-    margin: 2rem;
+    margin: 0.5rem;
     max-width: 40px;
 }
 
@@ -106,7 +106,7 @@ img {
 
 .trash-img {
     border-radius: 30%;
-    margin-left: 1.5rem;
+    margin-left: 0;
 }
 
 .trash-img:hover {
@@ -127,6 +127,12 @@ img {
 
 .li_backround {
     background-color: red;
+}
+
+@media (min-width: 350px) {
+    .trash-img {
+        margin-left: 1rem;
+    }
 }
 
 @media (min-width: 680px) {
@@ -156,5 +162,11 @@ img {
         justify-content: space-between;
         margin: auto;
         max-width: 800px;
+    }
+    img {
+        margin: 1rem;
+    }
+    .trash-img {
+        margin: 1.4rem;
     }
 }
