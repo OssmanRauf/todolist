@@ -1,6 +1,10 @@
-*,
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+body {
     background-color: rgb(255, 194, 80);
 }
 
@@ -75,6 +79,7 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    transition: all 70s linear;
 }
 
 .task {
@@ -118,6 +123,10 @@ img {
 
 .compleated {
     text-decoration: line-through;
+}
+
+.li_backround {
+    background-color: red;
 }
 
 @media (min-width: 680px) {
