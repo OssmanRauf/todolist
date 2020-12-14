@@ -51,6 +51,10 @@ main {
     align-items: baseline;
 }
 
+#form {
+    width: 100%;
+}
+
 #todo-input {
     margin: 10px;
     width: 45%;

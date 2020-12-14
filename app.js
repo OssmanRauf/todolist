@@ -1,5 +1,5 @@
 const input = document.querySelector("#todo-input");
-const btn = document.querySelector("#todo-btn");
+const form = document.querySelector("#form");
 const task_list = document.querySelector(".task-list");
 const search = document.querySelector('#search');
 
@@ -10,7 +10,8 @@ function Task(task, compleated) {
 
 adding_elements_ui();
 
-btn.addEventListener("click", () => {
+form.addEventListener("submit", (e) => {
+    e.preventDefault()
     if (input.value.replace(/ /g, "")) {
         const text = input.value.trim();
         const task_formated = text.charAt(0).toUpperCase() + text.slice(1);
