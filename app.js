@@ -3,20 +3,26 @@ const form = document.querySelector("#form");
 const task_list = document.querySelector(".task-list");
 const search = document.querySelector('#search');
 
-function Task(task, compleated) {
-    this.task = task;
-    this.compleated = compleated;
+class Task {
+    constructor(task, compleated) {
+        this.task = task;
+        this.compleated = compleated;
+    };
 };
-
+//adding elements from local storage to the page
 adding_elements_ui();
 
+
+//creating task adding element in local storage and in the page
 form.addEventListener("submit", (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (input.value.replace(/ /g, "")) {
         const text = input.value.trim();
         const task_formated = text.charAt(0).toUpperCase() + text.slice(1);
         const task = new Task(task_formated, false);
-        add_element(task.task)
+        // adding task to the page
+        add_element(task.task);
+        // adding task to local storage
         add_localStorage(task);
         input.value = "";
     } else {
@@ -26,13 +32,14 @@ form.addEventListener("submit", (e) => {
 });
 
 
-
+// listens to click event in the entire task block
 task_list.addEventListener('click', () => {
     let tasks;
     tasks = JSON.parse(localStorage.getItem("tasks"));
     const task_text = event.target.parentElement.firstChild;
     const li = event.target.parentElement;
     const index = get_index(task_text.textContent);
+    //if the check button was clicked add or remove compleated class
     if (event.target.classList.contains("check-img")) {
         if (task_text.classList.contains("compleated")) {
             event.target.classList.remove("checked");
@@ -46,25 +53,27 @@ task_list.addEventListener('click', () => {
             li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
             tasks[index].compleated = true;
             localStorage.setItem("tasks", JSON.stringify(tasks));
-        }
-    }
+        };
+    };
+
+    //if the trash button was clicked delete the task from UI and local storage
     if (event.target.classList.contains("trash-img")) {
         if (event.target.previousElementSibling.classList.contains("checked")) {
             if (task_text) {
                 tasks.splice(index, 1);
                 localStorage.setItem("tasks", JSON.stringify(tasks));
                 li.remove();
-            }
+            };
         } else if (confirm("Are you sure you want to delete this task?")) {
             tasks.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(tasks));
             li.remove();
-        }
-    }
+        };
+    };
 });
 
 
-
+// search for a task
 search.addEventListener('keyup', () => {
     const search_text = event.target.value.toLowerCase();
     const li = document.querySelectorAll('li');
@@ -84,22 +93,13 @@ search.addEventListener('keyup', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
+// get index(used to get index of a specific task)
 function get_index(text) {
     let tasks;
     tasks = JSON.parse(localStorage.getItem("tasks"));
     if (tasks.length != 0) {
         const index = tasks.findIndex(task => task.task === text);
-        return index
+        return index;
 
     };
 };
@@ -159,7 +159,6 @@ function add_localStorage(item) {
     } else {
         tasks = JSON.parse(localStorage.getItem('tasks'));
     };
-    tasks.push(item)
+    tasks.push(item);
     localStorage.setItem('tasks', JSON.stringify(tasks));
-    // adding_element_ui(item.task);
 };
