@@ -9,8 +9,7 @@ class Task {
         this.compleated = compleated;
     };
 };
-//adding elements from local storage to the page
-adding_elements_ui();
+show_all_elements_ui()
 
 
 //creating task adding element in local storage and in the page
@@ -47,12 +46,19 @@ task_list.addEventListener('click', () => {
             li.style.backgroundColor = "rgba(255, 255, 255, 0.955)";
             tasks[index].compleated = false;
             localStorage.setItem("tasks", JSON.stringify(tasks));
+            if (document.getElementById("options").value === "compleated") {
+                li.parentElement.removeChild(li)
+            }
+
         } else {
             event.target.classList.add("checked");
             task_text.classList.add("compleated");
             li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
             tasks[index].compleated = true;
             localStorage.setItem("tasks", JSON.stringify(tasks));
+            if (document.getElementById("options").value === "incompleated") {
+                li.parentElement.removeChild(li);
+            }
         };
     };
 
@@ -104,32 +110,79 @@ function get_index(text) {
     };
 };
 
+function clearUI() {
+    if (task_list.children.length > 0) {
+        task_list.innerHTML = '';
+    }
+}
 
-function adding_elements_ui() {
+function show_all_elements_ui() {
+    clearUI();
     if (localStorage.getItem("tasks") != null) {
         const tasks = JSON.parse(localStorage.getItem("tasks"));
         tasks.forEach((task) => {
             const li = document.createElement("li");
-            const h4 = document.createElement("h4");
-            h4.classList.add("task");
-            h4.textContent = task.task;
-            const check_btn = document.createElement("img");
-            check_btn.classList.add("check-img");
-            check_btn.src = "./check_icon.svg";
-            const trash_btn = document.createElement("img");
-            trash_btn.classList.add("trash-img");
-            trash_btn.src = "./trash_icon.svg";
+            if (task.compleated === false) {
+                li.innerHTML = `<h4 class="task">${task.task}</h4><img class="check-img" src="./check_icon.svg"><img class="trash-img" src="./trash_icon.svg">`;
+            } else {
+                li.innerHTML = `<h4 class="task compleated">${task.task}</h4><img class="check-img checked" src="./check_icon.svg"><img class="trash-img" src="./trash_icon.svg">`;
+                li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
+            }
+            task_list.insertBefore(li, task_list.firstChild);
+        })
+    }
+}
+
+function show_compleated_elements_ui() {
+    clearUI();
+    if (localStorage.getItem("tasks") != null) {
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        tasks.forEach((task) => {
             if (task.compleated === true) {
-                h4.classList.add('compleated')
+                const li = document.createElement("li");
+                const h4 = document.createElement("h4");
+                h4.classList.add("task");
+                h4.textContent = task.task;
+                const check_btn = document.createElement("img");
+                check_btn.classList.add("check-img");
+                check_btn.src = "./check_icon.svg";
+                const trash_btn = document.createElement("img");
+                trash_btn.classList.add("trash-img");
+                trash_btn.src = "./trash_icon.svg";
+                h4.classList.add("compleated");
                 check_btn.classList.add("checked");
                 li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
-            };
-            li.appendChild(h4);
-            li.appendChild(check_btn);
-            li.appendChild(trash_btn);
-            task_list.insertBefore(li, task_list.firstChild);
+                li.appendChild(h4);
+                li.appendChild(check_btn);
+                li.appendChild(trash_btn);
+                task_list.insertBefore(li, task_list.firstChild);
+            }
+        });
+    }
+};
 
-        })
+function show_incompleated_elements_ui() {
+    clearUI();
+    if (localStorage.getItem("tasks") != null) {
+        const tasks = JSON.parse(localStorage.getItem("tasks"));
+        tasks.forEach((task) => {
+            if (task.compleated === false) {
+                const li = document.createElement("li");
+                const h4 = document.createElement("h4");
+                h4.classList.add("task");
+                h4.textContent = task.task;
+                const check_btn = document.createElement("img");
+                check_btn.classList.add("check-img");
+                check_btn.src = "./check_icon.svg";
+                const trash_btn = document.createElement("img");
+                trash_btn.classList.add("trash-img");
+                trash_btn.src = "./trash_icon.svg";
+                li.appendChild(h4);
+                li.appendChild(check_btn);
+                li.appendChild(trash_btn);
+                task_list.insertBefore(li, task_list.firstChild);
+            }
+        });
     }
 };
 
@@ -161,4 +214,17 @@ function add_localStorage(item) {
     };
     tasks.push(item);
     localStorage.setItem('tasks', JSON.stringify(tasks));
+};
+
+
+// get the option from the user
+function change() {
+    const e = document.getElementById('options').value;
+    if (e === 'all') {
+        show_all_elements_ui();
+    } else if (e === "compleated") {
+        show_compleated_elements_ui()
+    } else if (e === "incompleated") {
+        show_incompleated_elements_ui();
+    };
 };
