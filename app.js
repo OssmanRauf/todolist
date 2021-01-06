@@ -228,7 +228,7 @@ function change() {
         showAllElementsUI();
     } else if (e === "completed") {
         showCompletedElementsUI();
-    } else if (e === "incompleted") {
+    } else if (e === "uncompleted") {
         showUncompletedElementsUI();
     };
 };
