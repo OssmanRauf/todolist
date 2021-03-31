@@ -1,20 +1,28 @@
 const input = document.querySelector("#todo-input");
 const form = document.querySelector("#form");
 const taskList = document.querySelector(".task-list");
-const search = document.querySelector('#search');
+const search = document.querySelector("#search");
 
+// Registering Service worker
+if (`serviceWorker` in navigator) {
+    navigator.serviceWorker
+        .register("sw.js")
+        .then((registration) => {
+            console.log("registered", registration);
+        })
+        .catch((er) => {
+            console.log("error", er);
+        });
+}
 
 showAllElementsUI();
-
 
 class Task {
     constructor(task, completed) {
         this.task = task;
         this.completed = completed;
-    };
-};
-
-
+    }
+}
 
 //creating task adding element in local storage and in the page
 form.addEventListener("submit", (e) => {
@@ -31,12 +39,11 @@ form.addEventListener("submit", (e) => {
     } else {
         alert("Please type a valid text");
         input.value = "";
-    };
+    }
 });
 
-
 // listens to click event in the entire task block
-taskList.addEventListener('click', () => {
+taskList.addEventListener("click", () => {
     let tasks;
     tasks = JSON.parse(localStorage.getItem("tasks"));
     const taskText = event.target.parentElement.firstChild;
@@ -51,9 +58,8 @@ taskList.addEventListener('click', () => {
             tasks[index].completed = false;
             localStorage.setItem("tasks", JSON.stringify(tasks));
             if (document.getElementById("options").value === "completed") {
-                li.parentElement.removeChild(li)
+                li.parentElement.removeChild(li);
             }
-
         } else {
             event.target.classList.add("checked");
             taskText.classList.add("completed");
@@ -63,8 +69,8 @@ taskList.addEventListener('click', () => {
             if (document.getElementById("options").value === "uncompleted") {
                 li.parentElement.removeChild(li);
             }
-        };
-    };
+        }
+    }
 
     //if the trash button was clicked delete the task from UI and local storage
     if (event.target.classList.contains("trash-img")) {
@@ -73,50 +79,43 @@ taskList.addEventListener('click', () => {
                 tasks.splice(index, 1);
                 localStorage.setItem("tasks", JSON.stringify(tasks));
                 li.remove();
-            };
+            }
         } else if (confirm("Are you sure you want to delete this task?")) {
             tasks.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(tasks));
             li.remove();
-        };
-    };
+        }
+    }
 });
 
-
 // search for a task
-search.addEventListener('keyup', () => {
+search.addEventListener("keyup", () => {
     const searchText = event.target.value.toLowerCase();
-    const li = document.querySelectorAll('li');
-    li.forEach(element => {
+    const li = document.querySelectorAll("li");
+    li.forEach((element) => {
         const task = element.firstChild.textContent.toLowerCase();
         if (task.indexOf(searchText) != -1) {
             console.log(task.indexOf(searchText));
             element.style.display = "flex";
         } else {
-            element.style.display = 'none';
-        };
+            element.style.display = "none";
+        }
     });
 });
-
-
-
-
-
 
 // get index(used to get index of a specific task)
 function getInd(text) {
     let tasks;
     tasks = JSON.parse(localStorage.getItem("tasks"));
     if (tasks.length != 0) {
-        const index = tasks.findIndex(task => task.task === text);
+        const index = tasks.findIndex((task) => task.task === text);
         return index;
-
-    };
-};
+    }
+}
 
 function clearUI() {
     if (taskList.children.length > 0) {
-        taskList.innerHTML = '';
+        taskList.innerHTML = "";
     }
 }
 
@@ -133,7 +132,7 @@ function showAllElementsUI() {
                 li.style.backgroundColor = "rgba(239, 239, 239, 0.9)";
             }
             taskList.insertBefore(li, taskList.firstChild);
-        })
+        });
     }
 }
 
@@ -163,7 +162,7 @@ function showCompletedElementsUI() {
             }
         });
     }
-};
+}
 
 function showUncompletedElementsUI() {
     clearUI();
@@ -188,7 +187,7 @@ function showUncompletedElementsUI() {
             }
         });
     }
-};
+}
 
 function addElement(text) {
     const li = document.createElement("li");
@@ -205,30 +204,27 @@ function addElement(text) {
     li.appendChild(checkBtn);
     li.appendChild(trashBtn);
     taskList.insertBefore(li, taskList.firstChild);
-
-};
-
+}
 
 function addToLocalStorage(item) {
     let tasks;
-    if (localStorage.getItem('tasks') === null) {
-        tasks = []
+    if (localStorage.getItem("tasks") === null) {
+        tasks = [];
     } else {
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-    };
+        tasks = JSON.parse(localStorage.getItem("tasks"));
+    }
     tasks.push(item);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-};
-
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 // get the option from the user
 function change() {
-    const e = document.getElementById('options').value;
-    if (e === 'all') {
+    const e = document.getElementById("options").value;
+    if (e === "all") {
         showAllElementsUI();
     } else if (e === "completed") {
         showCompletedElementsUI();
     } else if (e === "uncompleted") {
         showUncompletedElementsUI();
-    };
-};
+    }
+}
